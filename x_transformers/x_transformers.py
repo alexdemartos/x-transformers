@@ -983,7 +983,8 @@ class FeedForward(Module):
         post_act_ln = False,
         dropout = 0.,
         no_bias = False,
-        zero_init_output = False
+        zero_init_output = False,
+        gelu_approximate = 'none'
     ):
         super().__init__()
         inner_dim = int(dim * mult)
@@ -994,7 +995,7 @@ class FeedForward(Module):
         elif swish:
             activation = nn.SiLU()
         else:
-            activation = nn.GELU()
+            activation = nn.GELU(approximate=gelu_approximate)
 
         if glu:
             project_in = GLU(dim, inner_dim, activation, mult_bias = glu_mult_bias)
